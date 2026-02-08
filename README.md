@@ -64,12 +64,9 @@ PreZen is a front-end dashboard concept for prediction markets, combining a **so
 
 ---
 
-## Pages
-Open any of these in a browser (recommended via a local server):
-- `home.html` — main dashboard + feed
-- `trade.html` — trade tooling UI + analysis widgets
-- `profile.html` — portfolio view + performance cards
-- `chat.html`, `notifications.html`, `saved.html`, `AIsignals.html`, `settings.html` (if present in your project)
+## Upgrade to Premium payment
+- normal fees $15
+- get 20% discount for paying with Plasma one
 
 ---
 
