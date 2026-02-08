@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PreZen | Upgrade</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --border-radius: 12px;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Inter", sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: #f1f5f9;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .container { display: flex; width: 100%; }
+
+    .sidebar {
+      width: 260px;
+      background-color: white;
+      border-right: 1px solid var(--gray-light);
+      padding: 20px;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .logo-icon { color: var(--secondary); }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: #f8fafc;
+      border-radius: var(--border-radius);
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .user-info h3 { font-size: 1.1rem; margin-bottom: 5px; }
+
+    .user-level {
+      display: inline-block;
+      background-color: var(--accent);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .user-stats { display: flex; gap: 15px; margin-top: 8px; }
+    .stat { text-align: center; }
+    .stat-value { font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+    .stat-label { font-size: 0.8rem; color: var(--gray); }
+
+    .nav-section { margin-bottom: 30px; }
+
+    .nav-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 15px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links { list-style: none; }
+    .nav-links li { margin-bottom: 10px; }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: var(--dark);
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: #f0f9ff;
+      color: var(--primary);
+    }
+
+    .nav-links a i { width: 20px; text-align: center; }
+
+    .upgrade-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin-top: 30px;
+    }
+
+    .upgrade-card h4 { margin-bottom: 10px; font-size: 1.1rem; }
+    .upgrade-card p { font-size: 0.9rem; opacity: 0.9; margin-bottom: 15px; }
+
+    .upgrade-button {
+      background-color: white;
+      color: var(--primary);
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: var(--transition);
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .upgrade-button:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--gray-light);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-title .badge {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .post-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: var(--border-radius);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .post-button:hover { background-color: var(--primary-dark); }
+
+    /* Upgrade page content */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 25px;
+      padding-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--gray-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-body { padding: 18px; }
+
+    .plan-box {
+      border: 1px solid var(--gray-light);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      background: #f8fafc;
+    }
+
+    .plan-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .plan-name { font-weight: 900; font-size: 1.15rem; }
+    .plan-desc { color: var(--gray); font-weight: 600; margin-top: 4px; }
+
+    .price {
+      text-align: right;
+      min-width: 180px;
+    }
+
+    .price .big {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.1;
+    }
+
+    .price .small {
+      color: var(--gray);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .features {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-weight: 650;
+    }
+
+    .feature i { color: var(--accent); }
+
+    .pay-methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .pay-btn {
+      border: 1px solid var(--gray-light);
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 12px 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--dark);
+    }
+
+    .pay-btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+    .pay-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+
+    .pay-left { display: inline-flex; align-items: center; gap: 10px; }
+    .pay-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border: 1px solid var(--gray-light);
+      flex: 0 0 auto;
+      font-weight: 900;
+    }
+
+    .discount-pill {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 0.86rem; font-weight: 800; color: var(--gray); }
+
+    .field input, .field select {
+      padding: 12px 12px;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      background: white;
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .cta-row {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .primary-cta {
+      flex: 1;
+      min-width: 220px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: var(--border-radius);
+      font-weight: 900;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .primary-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    .secondary-cta {
+      background: white;
+      color: var(--dark);
+      border: 1px solid var(--gray-light);
+      padding: 12px 18px;
+      border-radius: var(--border-radius);
+      font-weight: 900;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .secondary-cta:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+
+    .summary-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--gray-light);
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .summary-line .muted { color: var(--gray); font-weight: 800; }
+    .summary-total {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-light);
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 900;
+    }
+
+    .tiny {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--gray);
+      font-weight: 600;
+    }
+
+    /* Crypto box */
+    .crypto-box {
+      margin-top: 14px;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--border-radius);
+      background: #f8fafc;
+      padding: 14px;
+      display: none;
+    }
+
+    .crypto-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .crypto-title {
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .crypto-sub {
+      color: var(--gray);
+      font-weight: 650;
+      margin-top: 4px;
+      font-size: 0.92rem;
+    }
+
+    .crypto-grid {
+      display: grid;
+      grid-template-columns: 1fr 160px;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .addr-box {
+      background: white;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--border-radius);
+      padding: 12px;
+    }
+
+    .addr-label {
+      font-size: 0.82rem;
+      color: var(--gray);
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .addr-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-weight: 800;
+      color: var(--dark);
+      word-break: break-all;
+      font-size: 0.92rem;
+    }
+
+    .copy-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--gray-light);
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .copy-btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+
+    .qr-box {
+      border: 1px solid var(--gray-light);
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 160px;
+    }
+
+    .qr-img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .qr-fallback {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      font-weight: 800;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 1200px) {
+      .content-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: relative; }
+      .main-content { height: auto; }
+      .form-grid { grid-template-columns: 1fr; }
+      .pay-methods { grid-template-columns: 1fr; }
+      .crypto-grid { grid-template-columns: 1fr; }
+      .qr-box { min-height: 180px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <i class="fas fa-chart-line logo-icon"></i>
+        <span>PreZen</span>
+      </div>
+
+      <div class="user-profile">
+        <div class="user-avatar">JD</div>
+        <div class="user-info">
+          <h3>John Doe</h3>
+          <div class="user-level">Level 3 Trader</div>
+          <div class="user-stats">
+            <div class="stat">
+              <div class="stat-value">72%</div>
+              <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">$2.1K</div>
+              <div class="stat-label">Staked</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <h4 class="nav-title">Main</h4>
+        <ul class="nav-links">
+          <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+          <li><a href="trade.html"><i class="fas fa-chart-line"></i> Trade</a></li>
+          <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+          <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+          <li><a href="saved.html"><i class="fas fa-bookmark"></i> Saved</a></li>
+          <li><a href="AIsignals.html"><i class="fas fa-robot"></i> AI Signals</a></li>
+          <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+          <li><a href="upgrade.html" class="active"><i class="fas fa-crown"></i> Upgrade</a></li>
+        </ul>
+      </div>
+
+      <div class="upgrade-card">
+        <h4>Premium Benefits</h4>
+        <p>Smart filtering, reputation-weighted odds, and AI recommendations</p>
+        <a class="upgrade-button" href="upgrade.html">You're Here</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="header">
+        <div class="page-title">
+          <h2>Upgrade to Premium</h2>
+          <span class="badge">PAYMENTS</span>
+        </div>
+        <div class="header-actions">
+          <a class="post-button" href="home.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <!-- Left: Payment -->
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-lock"></i> Secure Checkout</div>
+            <div style="color:var(--gray); font-weight:800;">Cancel anytime</div>
+          </div>
+
+          <div class="card-body">
+            <div class="plan-box">
+              <div class="plan-top">
+                <div>
+                  <div class="plan-name">PreZen Premium</div>
+                  <div class="plan-desc">Reputation-weighted odds, smart filtering, AI recommendations</div>
+                </div>
+                <div class="price">
+                  <div class="big" id="priceBig">$15.00</div>
+                  <div class="small" id="priceSmall">per month</div>
+                </div>
+              </div>
+
+              <div class="features">
+                <div class="feature"><i class="fas fa-check-circle"></i> Verified-only feed filters</div>
+                <div class="feature"><i class="fas fa-check-circle"></i> Reputation-weighted market signals</div>
+                <div class="feature"><i class="fas fa-check-circle"></i> AI insights + bias alerts</div>
+                <div class="feature"><i class="fas fa-check-circle"></i> Pro API preview access</div>
+              </div>
+            </div>
+
+            <h3 style="margin-top:16px;">Choose payment method</h3>
+
+            <div class="pay-methods" id="payMethods">
+              <!-- CHANGED: Google/Apple -> BTC/USDT -->
+              <button class="pay-btn" data-method="btc" type="button">
+                <span class="pay-left">
+                  <span class="pay-icon"><i class="fab fa-bitcoin"></i></span>
+                  BTC
+                </span>
+                <i class="fas fa-chevron-right" style="color:var(--gray);"></i>
+              </button>
+
+              <button class="pay-btn" data-method="usdt" type="button">
+                <span class="pay-left">
+                  <span class="pay-icon">₮</span>
+                  USDT
+                </span>
+                <i class="fas fa-chevron-right" style="color:var(--gray);"></i>
+              </button>
+
+              <button class="pay-btn active" data-method="card" type="button">
+                <span class="pay-left">
+                  <span class="pay-icon"><i class="fas fa-credit-card"></i></span>
+                  Pay by Card
+                </span>
+                <i class="fas fa-chevron-right" style="color:var(--gray);"></i>
+              </button>
+
+              <button class="pay-btn" data-method="plasma" type="button">
+                <span class="pay-left">
+                  <span class="pay-icon"><i class="fas fa-bolt"></i></span>
+                  Pay with Plasma
+                </span>
+                <span class="discount-pill">20% OFF</span>
+              </button>
+            </div>
+
+            <div id="methodHint" class="tiny">
+              Tip: Pay with Plasma to unlock an instant 20% discount.
+            </div>
+
+            <!-- Card form -->
+            <div class="form-grid" id="cardForm" style="margin-top:14px;">
+              <div class="field full">
+                <label>Email</label>
+                <input type="email" placeholder="you@example.com" />
+              </div>
+
+              <div class="field full">
+                <label>Card Number</label>
+                <input type="text" placeholder="1234 5678 9012 3456" inputmode="numeric" />
+              </div>
+
+              <div class="field">
+                <label>Expiry</label>
+                <input type="text" placeholder="MM/YY" inputmode="numeric" />
+              </div>
+
+              <div class="field">
+                <label>CVC</label>
+                <input type="text" placeholder="123" inputmode="numeric" />
+              </div>
+
+              <div class="field full">
+                <label>Country / Region</label>
+                <select>
+                  <option>United Kingdom</option>
+                  <option>Thailand</option>
+                  <option>United States</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Crypto / Plasma info box -->
+            <div class="crypto-box" id="cryptoBox">
+              <div class="crypto-top">
+                <div>
+                  <div class="crypto-title" id="cryptoTitle">Pay with BTC</div>
+                  <div class="crypto-sub" id="cryptoSub">
+                    Send the exact amount to the address below. Your subscription activates after confirmation.
+                  </div>
+                </div>
+                <div style="color:var(--gray); font-weight:900;" id="cryptoAmount">
+                  Amount: —
+                </div>
+              </div>
+
+              <div class="crypto-grid">
+                <div class="addr-box">
+                  <div class="addr-label" id="addrLabel">BTC Address</div>
+                  <div class="addr-value" id="addrValue">bc1qexampleaddressreplace_me_1234567890</div>
+
+                  <div class="copy-row">
+                    <button class="copy-btn" id="copyAddrBtn" type="button">
+                      <i class="fas fa-copy"></i> Copy Address
+                    </button>
+                    <button class="copy-btn" id="copyAmountBtn" type="button">
+                      <i class="fas fa-dollar-sign"></i> Copy Amount
+                    </button>
+                  </div>
+
+                  <div class="tiny" id="cryptoNote">
+                    This is demo content. Replace addresses + generate real QR codes in <code>assets/</code>.
+                  </div>
+                </div>
+
+                <div class="qr-box">
+                  <img id="qrImg" class="qr-img" src="assets/btc-qr.png" alt="Payment QR" />
+                  <div id="qrFallback" class="qr-fallback">
+                    <i class="fas fa-qrcode" style="font-size:2rem;"></i>
+                    <div>Add QR image in <code>assets/</code></div>
+                    <div style="font-size:0.82rem;">(e.g. btc-qr.png, usdt-qr.png)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cta-row">
+              <button class="primary-cta" id="payNowBtn" type="button">
+                <i class="fas fa-lock"></i> Pay Now
+              </button>
+              <a class="secondary-cta" href="home.html">
+                <i class="fas fa-xmark"></i> Not now
+              </a>
+            </div>
+
+            <div class="tiny">
+              This is a demo checkout UI (no real payments processed).
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: Summary -->
+        <aside class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-receipt"></i> Order Summary</div>
+            <div style="color:var(--gray); font-weight:800;">USD</div>
+          </div>
+
+          <div class="card-body">
+            <div class="summary-line">
+              <span class="muted">Plan</span>
+              <span>Premium (Monthly)</span>
+            </div>
+
+            <div class="summary-line">
+              <span class="muted">Subtotal</span>
+              <span id="sumSubtotal">$15.00</span>
+            </div>
+
+            <div class="summary-line">
+              <span class="muted">Discount</span>
+              <span id="sumDiscount">$0.00</span>
+            </div>
+
+            <div class="summary-total">
+              <span>Total today</span>
+              <span id="sumTotal">$15.00</span>
+            </div>
+
+            <div class="tiny" id="discountNote">
+              Paying with Plasma gives <strong>20% off</strong> instantly.
+            </div>
+
+            <div class="plan-box" style="margin-top:16px;">
+              <div style="font-weight:900; margin-bottom:6px;">Why Plasma?</div>
+              <div style="color:var(--gray); font-weight:650;">
+                Faster settlement + clear onchain receipt. In this demo, Plasma also unlocks a discount.
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const BASE_PRICE = 15.00;
+    const PLASMA_DISCOUNT = 0.20;
+
+    const payMethods = document.getElementById("payMethods");
+    const priceBig = document.getElementById("priceBig");
+    const sumSubtotal = document.getElementById("sumSubtotal");
+    const sumDiscount = document.getElementById("sumDiscount");
+    const sumTotal = document.getElementById("sumTotal");
+
+    const cardForm = document.getElementById("cardForm");
+    const cryptoBox = document.getElementById("cryptoBox");
+
+    const methodHint = document.getElementById("methodHint");
+    const payNowBtn = document.getElementById("payNowBtn");
+
+    // Crypto box elements
+    const cryptoTitle = document.getElementById("cryptoTitle");
+    const cryptoSub = document.getElementById("cryptoSub");
+    const cryptoAmount = document.getElementById("cryptoAmount");
+    const addrLabel = document.getElementById("addrLabel");
+    const addrValue = document.getElementById("addrValue");
+    const copyAddrBtn = document.getElementById("copyAddrBtn");
+    const copyAmountBtn = document.getElementById("copyAmountBtn");
+    const qrImg = document.getElementById("qrImg");
+    const qrFallback = document.getElementById("qrFallback");
+
+    let selectedMethod = "card";
+
+    // Demo addresses (replace with real merchant addresses)
+    const ADDRESSES = {
+      btc: "bc1qexampleaddressreplace_me_1234567890",
+      usdt: "0xExampleUSDTAddressReplaceMe1234567890abcdef", // example ERC-20 style
+      plasma: "plasma_example_address_replace_me_1234567890"
+    };
+
+    // Demo amounts (you'd normally compute from price + FX rate)
+    const DEMO_AMOUNTS = {
+      btc: "0.00035 BTC",
+      usdt: "15.00 USDT",
+      plasma: "12.00 USDC (Plasma)"
+    };
+
+    function money(n) {
+      return `$${n.toFixed(2)}`;
+    }
+
+    function showQrFallbackIfBroken() {
+      // If image fails to load, show fallback
+      qrImg.addEventListener("error", () => {
+        qrImg.style.display = "none";
+        qrFallback.style.display = "flex";
+      }, { once: true });
+    }
+
+    function setSummary(method) {
+      const subtotal = BASE_PRICE;
+      const discount = (method === "plasma") ? subtotal * PLASMA_DISCOUNT : 0;
+      const total = subtotal - discount;
+
+      sumSubtotal.textContent = money(subtotal);
+      sumDiscount.textContent = `-${money(discount)}`.replace("-$0.00", "$0.00");
+      sumTotal.textContent = money(total);
+
+      priceBig.textContent = money(total);
+
+      // Toggle UI sections
+      const isCard = (method === "card");
+      const isCryptoLike = (method === "btc" || method === "usdt" || method === "plasma");
+
+      cardForm.style.display = isCard ? "grid" : "none";
+      cryptoBox.style.display = isCryptoLike ? "block" : "none";
+
+      // Method hint + button label + crypto box
+      if (method === "plasma") {
+        methodHint.textContent = "Plasma selected: 20% discount applied.";
+        payNowBtn.innerHTML = '<i class="fas fa-bolt"></i> Pay with Plasma';
+
+        cryptoTitle.textContent = "Pay with Plasma";
+        cryptoSub.textContent = "Send the exact amount via Plasma. Discount is applied automatically in this UI.";
+        cryptoAmount.textContent = `Amount: ${DEMO_AMOUNTS.plasma}`;
+        addrLabel.textContent = "Plasma Address";
+        addrValue.textContent = ADDRESSES.plasma;
+
+        qrFallback.style.display = "none";
+        qrImg.style.display = "block";
+        qrImg.src = "assets/plasma-qr.png"; // optional: add this file
+        showQrFallbackIfBroken();
+      } else if (method === "btc") {
+        methodHint.textContent = "BTC selected: send the exact amount shown below.";
+        payNowBtn.innerHTML = '<i class="fab fa-bitcoin"></i> Pay with BTC';
+
+        cryptoTitle.textContent = "Pay with BTC";
+        cryptoSub.textContent = "Send the exact amount to the BTC address below. Your subscription activates after confirmation.";
+        cryptoAmount.textContent = `Amount: ${DEMO_AMOUNTS.btc}`;
+        addrLabel.textContent = "BTC Address";
+        addrValue.textContent = ADDRESSES.btc;
+
+        qrFallback.style.display = "none";
+        qrImg.style.display = "block";
+        qrImg.src = "assets/btc-qr.png"; // add in assets/
+        showQrFallbackIfBroken();
+      } else if (method === "usdt") {
+        methodHint.textContent = "USDT selected: send the exact amount shown below.";
+        payNowBtn.innerHTML = '<i class="fas fa-coins"></i> Pay with USDT';
+
+        cryptoTitle.textContent = "Pay with USDT";
+        cryptoSub.textContent = "Send the exact amount to the USDT address below. (Replace with your chosen network + address).";
+        cryptoAmount.textContent = `Amount: ${DEMO_AMOUNTS.usdt}`;
+        addrLabel.textContent = "USDT Address";
+        addrValue.textContent = ADDRESSES.usdt;
+
+        qrFallback.style.display = "none";
+        qrImg.style.display = "block";
+        qrImg.src = "assets/usdt-qr.png"; // add in assets/
+        showQrFallbackIfBroken();
+      } else {
+        methodHint.textContent = "Tip: Pay with Plasma to unlock an instant 20% discount.";
+        payNowBtn.innerHTML = '<i class="fas fa-lock"></i> Pay Now';
+      }
+    }
+
+    function setActiveButton(method) {
+      document.querySelectorAll(".pay-btn").forEach(b => b.classList.remove("active"));
+      const btn = document.querySelector(`.pay-btn[data-method="${method}"]`);
+      if (btn) btn.classList.add("active");
+    }
+
+    payMethods.addEventListener("click", (e) => {
+      const btn = e.target.closest(".pay-btn");
+      if (!btn) return;
+
+      selectedMethod = btn.dataset.method;
+      setActiveButton(selectedMethod);
+      setSummary(selectedMethod);
+    });
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Copied to clipboard.");
+      } catch {
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        alert("Copied to clipboard.");
+      }
+    }
+
+    copyAddrBtn.addEventListener("click", () => copyText(addrValue.textContent));
+    copyAmountBtn.addEventListener("click", () => {
+      const amt =
+        selectedMethod === "btc" ? DEMO_AMOUNTS.btc :
+        selectedMethod === "usdt" ? DEMO_AMOUNTS.usdt :
+        selectedMethod === "plasma" ? DEMO_AMOUNTS.plasma :
+        "";
+      copyText(amt);
+    });
+
+    payNowBtn.addEventListener("click", () => {
+      if (selectedMethod === "plasma") {
+        alert("Demo: Plasma payment selected (20% discount applied). Replace with a real Plasma checkout flow.");
+      } else if (selectedMethod === "btc") {
+        alert("Demo: BTC payment selected. Show deposit address + monitor confirmations server-side.");
+      } else if (selectedMethod === "usdt") {
+        alert("Demo: USDT payment selected. Replace address + network, then monitor transfers server-side.");
+      } else {
+        alert("Demo: Card payment selected. This would process a card payment securely.");
+      }
+    });
+
+    // initial render
+    setActiveButton(selectedMethod);
+    setSummary(selectedMethod);
+  </script>
+</body>
+</html>
