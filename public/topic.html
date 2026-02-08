@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prezen | Decision-Quality Probability</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-light: #E6F0FF;
+            --primary-dark: #0052CC;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --truth-blue: #2563EB;
+            --contrarian-purple: #8B5CF6;
+            --dark: #111827;
+            --light: #FFFFFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --border-radius: 8px;
+            --border-radius-sm: 6px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.08);
+            --transition: all 0.15s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.4;
+            color: var(--gray-700);
+            background-color: var(--gray-50);
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: var(--light);
+            border-right: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+        .logo-section {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), #00C2FF);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .logo-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        .logo-tagline {
+            font-size: 10px;
+            color: var(--gray-500);
+            margin-top: 1px;
+        }
+        /* User Profile */
+        .user-profile {
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .user-compact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), #00C2FF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 24px;
+        }
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .user-stats {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .user-stat {
+            font-size: 11px;
+            color: var(--gray-600);
+            text-align: center;
+        }
+        .user-stat strong {
+            display: block;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        /* Platform Selector */
+        .platform-selector {
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .selector-label {
+            font-size: 10px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .platform-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .platform-badge {
+            padding: 3px 6px;
+            background: var(--gray-100);
+            border-radius: 3px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .platform-badge.active {
+            background: var(--primary);
+            color: white;
+        }
+        /* Navigation */
+        .nav-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+        .nav-item {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-600);
+            font-size: 12px;
+            font-weight: 500;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            color: var(--primary);
+            background: var(--gray-50);
+        }
+        .nav-item.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .nav-icon {
+            width: 16px;
+            text-align: center;
+        }
+        /* Submenu */
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 240px;
+            top: 0;
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow);
+            min-width: 200px;
+            z-index: 1000;
+        }
+        .nav-item:hover .submenu {
+            display: block;
+        }
+        .submenu-item {
+            padding: 8px 12px;
+            color: var(--gray-600);
+            font-size: 11px;
+            transition: var(--transition);
+        }
+        .submenu-item:hover {
+            background: var(--gray-50);
+            color: var(--primary);
+        }
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        /* Header */
+        .header {
+            background: var(--light);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        /* Innovative Liquidity Section in Header */
+        .liquidity-serum {
+            background: linear-gradient(135deg, var(--truth-blue), var(--contrarian-purple));
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .serum-title {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .serum-metrics {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .serum-metric {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .serum-metric strong {
+            font-weight: 600;
+        }
+        /* Market Overview */
+        .market-overview {
+            padding: 12px 16px;
+            background: var(--light);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .market-grid {
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 12px;
+        }
+        .live-metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+        .live-metric {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-sm);
+            padding: 8px;
+            text-align: center;
+        }
+        .metric-label {
+            font-size: 9px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .metric-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        .metric-change {
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .distribution-risk {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .distribution-card, .risk-card {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-sm);
+            padding: 12px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .distribution-chart {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pie-chart {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--primary) 0% 38%,
+                var(--success) 38% 65%,
+                #00C2FF 65% 80%,
+                var(--warning) 80% 92%,
+                var(--gray-300) 92% 100%
+            );
+        }
+        .chart-legend {
+            flex: 1;
+            font-size: 10px;
+        }
+        .legend-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+        .legend-left {
+            display: flex;
+            gap: 4px;
+        }
+        .legend-color {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+        }
+        .risk-indicators {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .risk-indicator {
+            padding: 8px;
+            background: var(--gray-50);
+            border-radius: 4px;
+            text-align: center;
+            font-size: 10px;
+        }
+        .risk-value {
+            font-weight: 600;
+            font-size: 12px;
+        }
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+        /* Home Page - Signal Feed */
+        .home-content {
+            display: grid;
+            grid-template-columns: 1fr 240px;
+            gap: 12px;
+        }
+        .feed-section {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+        }
+        .feed-header {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+        }
+        .feed-title {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .feed-filters {
+            display: flex;
+            gap: 6px;
+        }
+        .filter-btn {
+            padding: 4px 8px;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .feed-items {
+            overflow-y: auto;
+            max-height: 600px;
+        }
+        .feed-item {
+            padding: 12px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .item-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        .item-author {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .item-time {
+            font-size: 10px;
+            color: var(--gray-500);
+        }
+        .item-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .item-text {
+            font-size: 11px;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+        .prediction-bubbles {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .prediction-bubble {
+            flex: 1;
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .item-comments {
+            font-size: 10px;
+            color: var(--gray-500);
+        }
+        /* Sidebar Widgets */
+        .sidebar-widgets {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .widget {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+        .widget-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .trending-item {
+            font-size: 11px;
+            padding: 4px 0;
+        }
+        .news-item {
+            font-size: 11px;
+            padding: 4px 0;
+        }
+        /* Trade Page */
+        .trade-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        .trade-section {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+        .trade-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .chart-placeholder {
+            height: 150px;
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+        .trade-table {
+            width: 100%;
+            font-size: 11px;
+            border-collapse: collapse;
+        }
+        .trade-table th, .trade-table td {
+            padding: 6px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .trade-table th {
+            text-align: left;
+            font-weight: 600;
+        }
+        /* Chat Page */
+        .chat-content {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            height: calc(100vh - 150px);
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+        }
+        .chat-sidebar {
+            border-right: 1px solid var(--gray-200);
+            padding: 12px;
+            overflow-y: auto;
+        }
+        .chat-category {
+            margin-bottom: 16px;
+        }
+        .category-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .category-item {
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .category-item.active {
+            background: var(--primary-light);
+        }
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+        .chat-input {
+            padding: 12px;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+        }
+        .send-button {
+            padding: 8px 12px;
+            margin-left: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        /* Notifications Page */
+        .notifications-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .notifications-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .filter-select {
+            padding: 6px;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .notification-card {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+        .notification-content {
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        /* Saved Page */
+        .saved-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .saved-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .saved-item {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+        .saved-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .saved-description {
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        /* AI Signals Page */
+        .ai-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        .ai-card {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+        .ai-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .ai-description {
+            font-size: 11px;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+        .ai-premium {
+            background: var(--primary-light);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        /* Settings Page */
+        .settings-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .settings-section {
+            background: var(--light);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+        .settings-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            padding: 6px 0;
+        }
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .home-content, .trade-content, .ai-content {
+                grid-template-columns: 1fr;
+            }
+            .chat-content {
+                grid-template-columns: 1fr;
+            }
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+            .live-metrics {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            .live-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .live-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-section">
+            <a href="#" class="logo">
+                <div class="logo-icon">P</div>
+                <div>
+                    <div class="logo-text">Prezen</div>
+                    <div class="logo-tagline">Decision-quality probability</div>
+                </div>
+            </a>
+        </div>
+        <div class="user-profile">
+            <div class="user-compact">
+                <div class="user-avatar">JD</div>
+                <div class="user-name">John Doe</div>
+                <div class="user-stats">
+                    <div class="user-stat"><strong>84%</strong> win rate</div>
+                    <div class="user-stat"><strong>$8.2K</strong> stake</div>
+                </div>
+            </div>
+        </div>
+        <div class="platform-selector">
+            <div class="selector-label">Platform View</div>
+            <div class="platform-badges">
+                <div class="platform-badge active">Overview</div>
+                <div class="platform-badge">Polymarket</div>
+                <div class="platform-badge">Kalshi</div>
+                <div class="platform-badge">Opinion</div>
+                <div class="platform-badge">Myriad</div>
+            </div>
+        </div>
+        <div class="nav-section">
+            <a href="#" class="nav-item active" data-page="home">
+                <i class="fas fa-home nav-icon"></i>
+                <span>Home</span>
+                <div class="submenu">
+                    <div class="submenu-item">Signal Feed</div>
+                    <div class="submenu-item">Trending Markets</div>
+                    <div class="submenu-item">Policy News</div>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-page="trade">
+                <i class="fas fa-chart-line nav-icon"></i>
+                <span>Trade</span>
+                <div class="submenu">
+                    <div class="submenu-item">TVL</div>
+                    <div class="submenu-item">Markets Count</div>
+                    <div class="submenu-item">Volume</div>
+                    <div class="submenu-item">Participation</div>
+                    <div class="submenu-item">Top Wallets</div>
+                    <div class="submenu-item">Wallet Tracking</div>
+                    <div class="submenu-item">ROI Trends</div>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-page="chat">
+                <i class="fas fa-comments nav-icon"></i>
+                <span>Chat</span>
+                <div class="submenu">
+                    <div class="submenu-item">DM</div>
+                    <div class="submenu-item">Community</div>
+                    <div class="submenu-item">Requests</div>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-page="notifications">
+                <i class="fas fa-bell nav-icon"></i>
+                <span>Notifications</span>
+                <div class="submenu">
+                    <div class="submenu-item">Tracking Alerts</div>
+                    <div class="submenu-item">General</div>
+                    <div class="submenu-item">AI Insights</div>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-page="saved">
+                <i class="fas fa-bookmark nav-icon"></i>
+                <span>Saved</span>
+                <div class="submenu">
+                    <div class="submenu-item">Reports</div>
+                    <div class="submenu-item">News</div>
+                    <div class="submenu-item">Community Posts</div>
+                    <div class="submenu-item">Custom Folders</div>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-page="ai">
+                <i class="fas fa-robot nav-icon"></i>
+                <span>AI Signals</span>
+                <div class="submenu">
+                    <div class="submenu-item">Sentiment</div>
+                    <div class="submenu-item">Bias Alerts</div>
+                    <div class="submenu-item">Recommendations</div>
+                </div>
+            </a>
+            <a href="#" class="nav-item" data-page="settings">
+                <i class="fas fa-cog nav-icon"></i>
+                <span>Settings</span>
+                <div class="submenu">
+                    <div class="submenu-item">Themes</div>
+                    <div class="submenu-item">Tracking Platforms</div>
+                    <div class="submenu-item">Privacy</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Innovative Liquidity Serum in Header -->
+        <div class="liquidity-serum">
+            <div class="serum-title">
+                <i class="fas fa-vial"></i> Liquidity Truth Serum
+            </div>
+            <div class="serum-metrics">
+                <div class="serum-metric">Depth: <strong>Shallow (35%)</strong></div>
+                <div class="serum-metric">Wash Detection: <strong>42% Suspicious</strong></div>
+                <div class="serum-metric">Arbitrage Edge: <strong>+4.2%</strong></div>
+                <div class="serum-metric">Time Decay: <strong>2.3%/week</strong></div>
+                <div class="serum-metric">Quality Score: <strong>58%</strong></div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header-title" id="pageTitle">Home</div>
+            <div class="header-actions">
+                <div style="font-size: 11px; color: var(--gray-500);">Last updated: <span id="liveTime">Just now</span></div>
+                <button class="action-btn" id="newPostBtn"><i class="fas fa-plus"></i> New</button>
+            </div>
+        </div>
+        <!-- Market Overview (Home only) -->
+        <div class="market-overview" id="marketOverview">
+            <div class="market-grid">
+                <div class="live-metrics">
+                    <div class="live-metric">
+                        <div class="metric-label">Active Markets</div>
+                        <div class="metric-value" id="metricMarkets">1,429</div>
+                        <div class="metric-change change-up">+2.8%</div>
+                    </div>
+                    <div class="live-metric">
+                        <div class="metric-label">Total Volume</div>
+                        <div class="metric-value" id="metricVolume">$45.2M</div>
+                        <div class="metric-change change-up">+1.4%</div>
+                    </div>
+                    <div class="live-metric">
+                        <div class="metric-label">24h Volume</div>
+                        <div class="metric-value" id="metric24h">$3.8M</div>
+                        <div class="metric-change change-down">-0.8%</div>
+                    </div>
+                    <div class="live-metric">
+                        <div class="metric-label">Open Interest</div>
+                        <div class="metric-value" id="metricInterest">$21.4M</div>
+                        <div class="metric-change change-up">+4.2%</div>
+                    </div>
+                    <div class="live-metric">
+                        <div class="metric-label">Liquidity</div>
+                        <div class="metric-value" id="metricLiquidity">$62.7M</div>
+                        <div class="metric-change change-up">+3.1%</div>
+                    </div>
+                </div>
+                <div class="distribution-risk">
+                    <div class="distribution-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-chart-pie"></i> Market Proportion</div>
+                        </div>
+                        <div class="distribution-chart">
+                            <div class="pie-chart"></div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-left">
+                                        <div class="legend-color" style="background: var(--primary);"></div>
+                                        Politics
+                                    </div>
+                                    38%
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-left">
+                                        <div class="legend-color" style="background: var(--success);"></div>
+                                        Crypto
+                                    </div>
+                                    27%
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-left">
+                                        <div class="legend-color" style="background: #00C2FF;"></div>
+                                        Sports
+                                    </div>
+                                    18%
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-left">
+                                        <div class="legend-color" style="background: var(--warning);"></div>
+                                        Finance
+                                    </div>
+                                    12%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="risk-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-shield-alt"></i> Risk Management</div>
+                        </div>
+                        <div class="risk-indicators">
+                            <div class="risk-indicator">
+                                <div class="risk-label">Health Score</div>
+                                <div class="risk-value">98/100</div>
+                            </div>
+                            <div class="risk-indicator">
+                                <div class="risk-label">Funds Protected</div>
+                                <div class="risk-value">1:1</div>
+                            </div>
+                            <div class="risk-indicator">
+                                <div class="risk-label">Regulatory</div>
+                                <div class="risk-value">Compliant</div>
+                            </div>
+                            <div class="risk-indicator">
+                                <div class="risk-label">Last Audit</div>
+                                <div class="risk-value">2 days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-area">
+            <!-- Home Page -->
+            <div class="page-content active" id="homePage">
+                <div class="home-content">
+                    <div class="feed-section">
+                        <div class="feed-header">
+                            <div class="feed-title">Signal Feed</div>
+                            <div class="feed-filters">
+                                <button class="filter-btn active">All</button>
+                                <button class="filter-btn">Verified</button>
+                                <button class="filter-btn">Following</button>
+                                <button class="filter-btn">Markets</button>
+                            </div>
+                        </div>
+                        <div class="feed-items">
+                            <div class="feed-item">
+                                <div class="item-header">
+                                    <div class="item-avatar">CO</div>
+                                    <div class="item-author">CryptoOracle</div>
+                                    <div class="item-time">2h ago</div>
+                                </div>
+                                <div class="item-title">ETH to hit $4,000 by year-end based on Shanghai upgrade data</div>
+                                <div class="item-text">On-chain metrics show reduced selling pressure post-Shanghai. Staking withdrawals have stabilized.</div>
+                                <div class="prediction-bubbles">
+                                    <div class="prediction-bubble bubble-yes">68% YES</div>
+                                    <div class="prediction-bubble bubble-no">32% NO</div>
+                                </div>
+                                <div class="item-comments">42 comments • 245 likes</div>
+                            </div>
+                            <div class="feed-item">
+                                <div class="item-header">
+                                    <div class="item-avatar">WSJ</div>
+                                    <div class="item-author">Wall Street Journal</div>
+                                    <div class="item-time">4h ago</div>
+                                </div>
+                                <div class="item-title">Fed signals potential rate cuts starting September 2024</div>
+                                <div class="item-text">Officials indicate cutting rates if inflation cools to 2% target.</div>
+                                <div class="prediction-bubbles">
+                                    <div class="prediction-bubble bubble-yes">42% YES</div>
+                                    <div class="prediction-bubble bubble-no">58% NO</div>
+                                </div>
+                                <div class="item-comments">28 comments • 189 likes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-widgets">
+                        <div class="widget">
+                            <div class="widget-title">Trending Markets</div>
+                            <div class="trending-item">Trump wins 2024 • 67% YES</div>
+                            <div class="trending-item">ETH $4,000 • 68% YES</div>
+                            <div class="trending-item">Fed cut Sep • 58% NO</div>
+                            <div class="trending-item">BTC $100K • 76% YES</div>
+                            <div class="trending-item">UK Labour • 58% YES</div>
+                        </div>
+                        <div class="widget">
+                            <div class="widget-title">Policy News (Bloomberg)</div>
+                            <div class="news-item">US-Ukraine Talks in Miami</div>
+                            <div class="news-item">Iran-US Indirect Talks</div>
+                            <div class="news-item">Zelenskiy on US Deal</div>
+                            <div class="news-item">EU Defense Funds</div>
+                            <div class="news-item">Hong Kong-Panama Ports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Trade Page -->
+            <div class="page-content" id="tradePage">
+                <div class="trade-content">
+                    <div class="trade-section">
+                        <div class="trade-section-title">TVL</div>
+                        <div class="chart-placeholder">$500M Total • +3.2%</div>
+                    </div>
+                    <div class="trade-section">
+                        <div class="trade-section-title">Markets Count</div>
+                        <div class="chart-placeholder">Open: 1,429 • Settled: 2,500</div>
+                    </div>
+                    <div class="trade-section">
+                        <div class="trade-section-title">Volume by Market</div>
+                        <table class="trade-table">
+                            <thead>
+                                <tr>
+                                    <th>Market</th>
+                                    <th>Volume</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Politics</td>
+                                    <td>$15M</td>
+                                    <td class="change-up">+5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Crypto</td>
+                                    <td>$12M</td>
+                                    <td class="change-down">-2%</td>
+                                </tr>
+                                <tr>
+                                    <td>Sports</td>
+                                    <td>$8M</td>
+                                    <td class="change-up">+3%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="trade-section">
+                        <div class="trade-section-title">User Participation Rates</div>
+                        <div class="chart-placeholder">Active: 120K • Rate: 45%</div>
+                    </div>
+                    <div class="trade-section">
+                        <div class="trade-section-title">Top Wallets</div>
+                        <table class="trade-table">
+                            <thead>
+                                <tr>
+                                    <th>Wallet</th>
+                                    <th>Win %</th>
+                                    <th>Stake</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0xAbC...123</td>
+                                    <td>92%</td>
+                                    <td>$50K</td>
+                                </tr>
+                                <tr>
+                                    <td>0xDeF...456</td>
+                                    <td>88%</td>
+                                    <td>$42K</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="trade-section">
+                        <div class="trade-section-title">Wallet Tracking</div>
+                        <div class="chart-placeholder">Big Trader: $100K ETH trade</div>
+                    </div>
+                    <div class="trade-section">
+                        <div class="trade-section-title">Payouts & ROI Trends</div>
+                        <div class="chart-placeholder">Avg ROI: 15% • Payouts: $20M</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Chat Page -->
+            <div class="page-content" id="chatPage">
+                <div class="chat-content">
+                    <div class="chat-sidebar">
+                        <div class="chat-category">
+                            <div class="category-title">Direct Messages</div>
+                            <div class="category-item active">CryptoOracle • Online</div>
+                            <div class="category-item">WSJ Bot • Verified</div>
+                        </div>
+                        <div class="chat-category">
+                            <div class="category-title">Communities</div>
+                            <div class="category-item">Politics Traders • 1,248 members</div>
+                            <div class="category-item">Crypto Signals • 892 members</div>
+                        </div>
+                        <div class="chat-category">
+                            <div class="category-title">Requests</div>
+                            <div class="category-item">TraderX Request</div>
+                        </div>
+                    </div>
+                    <div class="chat-main">
+                        <div class="chat-messages">
+                            <div class="message">
+                                <div class="message-sender">CryptoOracle</div>
+                                <div class="message-content">Thoughts on ETH?</div>
+                                <div class="message-time">2:45 PM</div>
+                            </div>
+                            <div class="message own">
+                                <div class="message-sender">You</div>
+                                <div class="message-content">Looks good for $4K.</div>
+                                <div class="message-time">2:47 PM</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Type message...">
+                            <button class="send-button">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Notifications Page -->
+            <div class="page-content" id="notificationsPage">
+                <div class="notifications-filters">
+                    <select class="filter-select">
+                        <option>Time Range: Last 24h</option>
+                        <option>Last Week</option>
+                        <option>Last Month</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Category: All</option>
+                        <option>Tracking</option>
+                        <option>General</option>
+                        <option>Trending</option>
+                    </select>
+                </div>
+                <div class="notifications-content">
+                    <div class="notification-card">
+                        <div class="notification-header">
+                            <div class="notification-title">Politics Alert</div>
+                            <div class="notification-time">1h ago</div>
+                        </div>
+                        <div class="notification-content">New US-Ukraine talks.</div>
+                    </div>
+                    <div class="notification-card">
+                        <div class="notification-header">
+                            <div class="notification-title">General Update</div>
+                            <div class="notification-time">3h ago</div>
+                        </div>
+                        <div class="notification-content">AI filtering enhanced.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Saved Page -->
+            <div class="page-content" id="savedPage">
+                <div class="saved-filters">
+                    <select class="filter-select">
+                        <option>Category: All</option>
+                        <option>Reports</option>
+                        <option>News</option>
+                        <option>Community Posts</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Folder: Default</option>
+                        <option>Crypto</option>
+                        <option>Politics</option>
+                    </select>
+                </div>
+                <div class="saved-content">
+                    <div class="saved-item">
+                        <div class="saved-title">ETH Analysis (Report)</div>
+                        <div class="saved-description">Post-Shanghai metrics.</div>
+                    </div>
+                    <div class="saved-item">
+                        <div class="saved-title">Fed Outlook (News)</div>
+                        <div class="saved-description">Rate cuts analysis.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- AI Signals Page -->
+            <div class="page-content" id="aiPage">
+                <div class="ai-content">
+                    <div class="ai-card">
+                        <div class="ai-title">ETH Prediction</div>
+                        <div class="ai-description">Bullish from 12K signals • Confidence 82%</div>
+                    </div>
+                    <div class="ai-card">
+                        <div class="ai-title">Election Sentiment</div>
+                        <div class="ai-description">Positive coverage • Confidence 76%</div>
+                    </div>
+                    <div class="ai-premium">
+                        Premium: Smart AI Search - Filter fake news/scams
+                    </div>
+                </div>
+            </div>
+            <!-- Settings Page -->
+            <div class="page-content" id="settingsPage">
+                <div class="settings-content">
+                    <div class="settings-section">
+                        <div class="settings-title">Themes</div>
+                        <div class="settings-option">
+                            <span>Dark Mode</span>
+                            <input type="checkbox">
+                        </div>
+                        <div class="settings-option">
+                            <span>Blue Accent</span>
+                            <input type="checkbox" checked>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="settings-title">Tracking Platforms</div>
+                        <div class="settings-option">
+                            <span>Polymarket</span>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-option">
+                            <span>Kalshi</span>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-option">
+                            <span>Opinion</span>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="settings-title">Privacy</div>
+                        <div class="settings-option">
+                            <span>Anonymous Mode</span>
+                            <input type="checkbox">
+                        </div>
+                        <div class="settings-option">
+                            <span>Data Sharing</span>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Navigation and Submenu
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+                const pageId = item.dataset.page + 'Page';
+                document.getElementById(pageId).classList.add('active');
+                document.getElementById('pageTitle').textContent = item.querySelector('span').textContent;
+                document.getElementById('marketOverview').style.display = item.dataset.page === 'home' ? 'block' : 'none';
+            });
+        });
+        // Platform Badges
+        document.querySelectorAll('.platform-badge').forEach(badge => {
+            badge.addEventListener('click', () => {
+                document.querySelectorAll('.platform-badge').forEach(b => b.classList.remove('active'));
+                badge.classList.add('active');
+            });
+        });
+        // Live Updates
+        function updateLiveTime() {
+            document.getElementById('liveTime').textContent = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+        }
+        setInterval(updateLiveTime, 60000);
+        updateLiveTime();
+        // Trade Buttons
+        document.querySelectorAll('.trade-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Trade placed');
+            });
+        });
+        // Chat Send
+        document.querySelector('.send-button').addEventListener('click', () => {
+            const input = document.querySelector('.chat-input input');
+            if (input.value) {
+                const msg = document.createElement('div');
+                msg.className = 'message own';
+                msg.innerHTML = `<div class="message-sender">You</div><div class="message-content">${input.value}</div><div class="message-time">Now</div>`;
+                document.querySelector('.chat-messages').appendChild(msg);
+                input.value = '';
+            }
+        });
+
+    
+    </script>
+</body>
+</html>

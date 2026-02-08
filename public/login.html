@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreZen - Login / Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --border-radius: 12px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--secondary);
+        }
+
+        .back-home {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .back-home:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Auth Container */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 40px 0;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 600px;
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        /* Auth Left Side - Branding */
+        .auth-left {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .brand-logo i {
+            font-size: 2.5rem;
+        }
+
+        .brand-logo h1 {
+            font-size: 2.2rem;
+        }
+
+        .auth-features {
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Auth Right Side - Forms */
+        .auth-right {
+            flex: 1.2;
+            background-color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: var(--gray);
+        }
+
+        /* Auth Tabs */
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 30px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray);
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        /* Guest Button */
+        .guest-button-container {
+            margin-bottom: 20px;
+        }
+
+        .guest-button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--warning);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .guest-button:hover {
+            background-color: #d97706;
+            transform: translateY(-2px);
+        }
+
+        /* Forms */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-dark);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+
+        .auth-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: var(--gray);
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--gray-light);
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Social Login */
+        .social-login {
+            margin-bottom: 30px;
+        }
+
+        .social-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .social-button {
+            padding: 14px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-button.google {
+            color: #db4437;
+            border-color: #db4437;
+        }
+
+        .social-button.x {
+            color: #000000;
+            border-color: #000000;
+        }
+
+        .social-button.facebook {
+            color: #1877f2;
+            border-color: #1877f2;
+        }
+
+        .social-button.email {
+            color: var(--primary);
+            border-color: var(--primary);
+            grid-column: span 2;
+        }
+
+        .social-button i {
+            font-size: 1.2rem;
+        }
+
+        /* Terms */
+        .terms {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .terms a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            margin-top: auto;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .auth-wrapper {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .auth-left {
+                padding: 40px 30px;
+            }
+            
+            .brand-logo {
+                justify-content: center;
+            }
+            
+            .auth-features {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-left, .auth-right {
+                padding: 30px 20px;
+            }
+            
+            .social-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-button.email {
+                grid-column: span 1;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-chart-line logo-icon"></i>
+                    <span>PreZen</span>
+                </a>
+                
+                <a href="index.html" class="back-home">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Auth Container -->
+    <main class="auth-container">
+        <div class="container">
+            <div class="auth-wrapper">
+                <!-- Left Side - Branding -->
+                <div class="auth-left">
+                    <div class="brand-logo">
+                        <i class="fas fa-chart-line"></i>
+                        <h1>PreZen</h1>
+                    </div>
+                    
+                    <h2>Empowering Prediction Markets with Social Intelligence</h2>
+                    <p style="margin-top: 15px; opacity: 0.9;">Join thousands of traders making informed decisions with our integrated social intelligence platform.</p>
+                    
+                    <div class="auth-features">
+                        <div class="feature-item">
+                            <i class="fas fa-comments"></i>
+                            <div>
+                                <h4>Social Ecosystem</h4>
+                                <p>Reddit-style discussions with real-time X feeds</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-user-check"></i>
+                            <div>
+                                <h4>Reputation System</h4>
+                                <p>User levels based on transaction history</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>FTX-Proof Security</h4>
+                                <p>Transparent governance and legal safeguards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Forms -->
+                <div class="auth-right">
+                    <div class="auth-header">
+                        <h2>Welcome to PreZen</h2>
+                        <p>Sign in to your account, create a new one, or try as guest</p>
+                    </div>
+                    
+                    <!-- Tabs -->
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">Sign In</button>
+                        <button class="auth-tab" data-tab="register">Sign Up</button>
+                    </div>
+                    
+                    <!-- Guest Access Button -->
+                    <div class="guest-button-container">
+                        <button class="guest-button" id="guestAccessBtn">
+                            <i class="fas fa-user-clock"></i> Try as Guest (For Judges & Trial Users)
+                        </button>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <div class="auth-form active" id="login-form">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                                    <button type="button" class="toggle-password" data-target="login-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-options">
+                                <div class="remember-me">
+                                    <input type="checkbox" id="remember-me">
+                                    <label for="remember-me">Remember me</label>
+                                </div>
+                                <a href="#" class="forgot-password">Forgot password?</a>
+                            </div>
+                            
+                            <button type="submit" class="auth-button">Sign In</button>
+                        </form>
+                        
+                        <div class="divider">
+                            <span>Or continue with</span>
+                        </div>
+                        
+                        <div class="social-login">
+                            <div class="social-buttons">
+                                <button class="social-button google" data-provider="google">
+                                    <i class="fab fa-google"></i>
+                                    Google
+                                </button>
+                                <button class="social-button x" data-provider="x">
+                                    <i class="fab fa-twitter"></i>
+                                    X.com
+                                </button>
+                                <button class="social-button facebook" data-provider="facebook">
+                                    <i class="fab fa-facebook"></i>
+                                    Facebook
+                                </button>
+                                <button class="social-button email" data-provider="email">
+                                    <i class="fas fa-envelope"></i>
+                                    Continue with Email
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <p class="terms">
+                            By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </p>
+                    </div>
+                    
+                    <!-- Register Form -->
+                    <div class="auth-form" id="register-form">
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="register-username">Username</label>
+                                <input type="text" id="register-username" class="form-control" placeholder="Choose a username" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-email">Email Address</label>
+                                <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-password">Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="register-password" class="form-control" placeholder="Create a password" required>
+                                    <button type="button" class="toggle-password" data-target="register-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <small style="color: var(--gray); margin-top: 5px; display: block;">
+                                    Must be at least 8 characters with uppercase, lowercase, and number
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                                    <button type="button" class="toggle-password" data-target="confirm-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="referral-code">Referral Code (Optional)</label>
+                                <input type="text" id="referral-code" class="form-control" placeholder="Enter referral code if any">
+                            </div>
+                            
+                            <div class="form-options">
+                                <div class="remember-me">
+                                    <input type="checkbox" id="terms-agree" required>
+                                    <label for="terms-agree">I agree to the <a href="#">Terms of Service</a></label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="auth-button">Create Account</button>
+                        </form>
+                        
+                        <div class="divider">
+                            <span>Or sign up with</span>
+                        </div>
+                        
+                        <div class="social-login">
+                            <div class="social-buttons">
+                                <button class="social-button google" data-provider="google">
+                                    <i class="fab fa-google"></i>
+                                    Google
+                                </button>
+                                <button class="social-button x" data-provider="x">
+                                    <i class="fab fa-twitter"></i>
+                                    X.com
+                                </button>
+                                <button class="social-button facebook" data-provider="facebook">
+                                    <i class="fab fa-facebook"></i>
+                                    Facebook
+                                </button>
+                                <button class="social-button email" data-provider="email">
+                                    <i class="fas fa-envelope"></i>
+                                    Sign Up with Email
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <p class="terms">
+                            Already have an account? <a href="#" class="switch-to-login">Sign in here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 PreZen. All rights reserved. Empowering Prediction Markets with Social Intelligence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // Guest Access Functionality
+        // ============================================
+        document.getElementById('guestAccessBtn').addEventListener('click', function() {
+            // Create guest user data
+            const guestUser = {
+                id: 'guest_' + Date.now(),
+                username: `Guest_${Math.floor(1000 + Math.random() * 9000)}`,
+                email: 'guest@PreZen.com',
+                isGuest: true,
+                createdAt: new Date().toISOString(),
+                trialEnds: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days trial
+                userType: 'trial',
+                permissions: {
+                    canTrade: true,
+                    canComment: true,
+                    canView: true,
+                    canPredict: true,
+                    limitedAmount: true
+                }
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('PreZen_user', JSON.stringify(guestUser));
+            localStorage.setItem('PreZen_auth', 'guest');
+            localStorage.setItem('PreZen_session_start', new Date().toISOString());
+            
+            // Show success message with loading animation
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Guest Session...';
+            this.disabled = true;
+            
+            // Simulate loading for better UX
+            setTimeout(() => {
+                // Show welcome message
+                alert(`Welcome to PreZen, ${guestUser.username}! You now have 7-day trial access.\n\nAs a guest user, you can:\n• Browse prediction markets\n• Make demo predictions\n• Explore social features\n• Test platform functionality`);
+                
+                // Redirect to home.html
+                window.location.href = 'home.html';
+            }, 1500);
+        });
+
+        // ============================================
+        // Tab switching between Login and Register
+        // ============================================
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.auth-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all forms
+                document.querySelectorAll('.auth-form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                
+                // Show corresponding form
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-form`).classList.add('active');
+            });
+        });
+
+        // ============================================
+        // Toggle password visibility
+        // ============================================
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // ============================================
+        // Switch to login from register link
+        // ============================================
+        document.querySelector('.switch-to-login')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Switch to login tab
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.auth-tab[data-tab="login"]').classList.add('active');
+            
+            // Show login form
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            document.getElementById('login-form').classList.add('active');
+        });
+
+        // ============================================
+        // Social login buttons
+        // ============================================
+        document.querySelectorAll('.social-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const provider = this.getAttribute('data-provider');
+                const isLoginForm = document.getElementById('login-form').classList.contains('active');
+                const action = isLoginForm ? 'signing in' : 'signing up';
+                
+                // Special handling for email button
+                if (provider === 'email') {
+                    if (isLoginForm) {
+                        document.getElementById('login-email').focus();
+                    } else {
+                        document.getElementById('register-email').focus();
+                    }
+                    return;
+                }
+                
+                // For social providers, show appropriate message
+                let providerName = '';
+                switch(provider) {
+                    case 'google': providerName = 'Google'; break;
+                    case 'x': providerName = 'X (Twitter)'; break;
+                    case 'facebook': providerName = 'Facebook'; break;
+                }
+                
+                // Show demo message for social login
+                alert(`[Demo Mode] ${providerName} authentication would be used for ${action}.\n\nIn production, this would connect to ${providerName} OAuth.\n\nFor now, please use "Try as Guest" or email sign up.`);
+            });
+        });
+
+        // ============================================
+        // Form submission handling
+        // ============================================
+        document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Basic validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate login process
+            console.log('Login attempt:', { email, password });
+            
+            // Create user data for demo
+            const demoUser = {
+                id: 'user_' + Date.now(),
+                email: email,
+                username: email.split('@')[0],
+                isGuest: false,
+                createdAt: new Date().toISOString(),
+                userType: 'registered'
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('PreZen_user', JSON.stringify(demoUser));
+            localStorage.setItem('PreZen_auth', 'email');
+            
+            // Show success message
+            alert('Login successful! Redirecting to dashboard...');
+            
+            // Redirect to home.html
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        });
+
+        document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Basic validation
+            if (!username || !email || !password || !confirmPassword) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Simulate registration process
+            console.log('Registration attempt:', { username, email, password });
+            
+            // Create user data for demo
+            const demoUser = {
+                id: 'user_' + Date.now(),
+                email: email,
+                username: username,
+                isGuest: false,
+                createdAt: new Date().toISOString(),
+                userType: 'registered',
+                referralCode: document.getElementById('referral-code').value || null
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('PreZen_user', JSON.stringify(demoUser));
+            localStorage.setItem('PreZen_auth', 'email');
+            
+            // Show success message
+            alert('Account created successfully! Welcome to PreZen!');
+            
+            // Redirect to home.html
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        });
+
+        // ============================================
+        // Forgot password
+        // ============================================
+        document.querySelector('.forgot-password')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = prompt('Please enter your email address to reset your password:');
+            if (email) {
+                alert(`[Demo Mode] Password reset email would be sent to ${email}\n\nIn production, this would send a real reset link.`);
+            }
+        });
+
+        // ============================================
+        // Check if user is already logged in
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('PreZen_user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                console.log('User already logged in:', user);
+                
+                // Optional: Show welcome back message
+                // alert(`Welcome back, ${user.username}! Redirecting to dashboard...`);
+                // window.location.href = 'home.html';
+            }
+        });
+
+        // ============================================
+        // Auto-focus on first input field
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeForm = document.querySelector('.auth-form.active');
+            if (activeForm) {
+                const firstInput = activeForm.querySelector('input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
